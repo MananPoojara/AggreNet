@@ -78,13 +78,28 @@ export default {
             transform: "scale(1)",
           },
         },
+        "coin-transfer": {
+          "0%": {
+            transform: "translateY(0) scale(1)",
+            opacity: "1"
+          },
+          "50%": {
+            transform: "translateY(100px) scale(0.8)",
+            opacity: "0.8"
+          },
+          "100%": {
+            transform: "translateY(200px) scale(0.6)",
+            opacity: "0"
+          }
+        }
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out forwards",
         "fade-in": "fade-in 0.3s ease-out forwards",
         "scale-up": "scale-up 0.3s ease-out forwards",
+        "coin-transfer": "coin-transfer 3s ease-in-out forwards"
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+}

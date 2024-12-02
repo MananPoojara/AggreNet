@@ -1,5 +1,6 @@
 import { Chain } from "@/types/crypto";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { chainType } from "../hooks/currentChainAtom"
 
 interface ChainSelectorProps {
   selectedChain: Chain;

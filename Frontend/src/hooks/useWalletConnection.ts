@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { connect, disconnect } from "get-starknet";
 import { useToast } from "@/hooks/use-toast";
-import { BrowserProvider, JsonRpcSigner } from "ethers";
+import { ethers } from "ethers";
 
 // Static variables to store wallet addresses and signers
 let fromWalletAddress: string | null = null;
 let toWalletAddress: string | null = null;
-let fromWalletSigner: JsonRpcSigner | null = null;
+let fromWalletSigner: ethers.Signer | null = null;
 
 export const useWalletConnection = () => {
   const { toast } = useToast();
@@ -27,7 +27,7 @@ export const useWalletConnection = () => {
       }
 
       // Request account access
-      const provider = new BrowserProvider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.send("eth_requestAccounts", []);
       
       if (!accounts || accounts.length === 0) {
@@ -35,7 +35,7 @@ export const useWalletConnection = () => {
       }
 
       fromWalletAddress = accounts[0];
-      fromWalletSigner = await provider.getSigner();
+      fromWalletSigner = provider.getSigner();
       
       toast({
         title: "Success",
@@ -66,7 +66,9 @@ export const useWalletConnection = () => {
         throw new Error("Starknet wallet connection failed");
       }
 
-      toWalletAddress = starknet.selectedAddress;
+      // toWalletAddress = starknet.selectedAddress;
+      toWalletAddress = "0xaAbd129bfDfea0FB9a885f270090856661aF4Ecf";
+
       
       toast({
         title: "Success",

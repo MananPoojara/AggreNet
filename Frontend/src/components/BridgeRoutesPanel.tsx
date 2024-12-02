@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { RefreshCwIcon } from "lucide-react";
+import { RefreshCwIcon, ArrowDownIcon, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useRef } from "react";
@@ -9,6 +9,8 @@ interface Bridge {
   time: string;
   fee: string;
   icon: string;
+  minReceived: string;
+  maxReceived: string;
 }
 
 interface BridgeRoutesPanelProps {
@@ -43,10 +45,15 @@ export const BridgeRoutesPanel = ({
     };
   }, [showRoutes, onClose]);
 
+  const getRandomTime = () => {
+    const minutes = Math.floor(Math.random() * 10) + 1;
+    return `${minutes} min`;
+  };
+
   if (!showRoutes) return null;
 
   return (
-    <>
+    <div className="fixed inset-0 z-50">
       {/* Overlay */}
       <div
         className="fixed inset-0 bg-black/40 z-40"
@@ -92,24 +99,39 @@ export const BridgeRoutesPanel = ({
                   key={bridge.name}
                   className={`glass-card p-4 hover:bg-white/5 cursor-pointer transition-all duration-300 ${selectedBridge === bridge.name ? 'bg-white/10 ring-2 ring-white/20 scale-[1.02]' : ''
                     }`}
-                  onClick={() => onBridgeSelect(bridge)}
+                  onClick={() => onBridgeSelect({ ...bridge, time: getRandomTime() })}
                   style={{
                     animationDelay: `${index * 0.1}s`
                   }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-full bg-white/5 p-2">
-                        <img src={bridge.icon} alt={bridge.name} className="w-full h-full" />
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 rounded-full bg-white/5 p-2">
+                          <img src={bridge.icon} alt={bridge.name} className="w-full h-full" />
+                        </div>
+                        <div>
+                          <div className="font-extrabold text-xl text-white">{bridge.minReceived || "0.0095 ETH"}</div>
+                          <div className="text- text-gray-400">Min. Received</div>
+                        </div>
                       </div>
-                      <div>
+                      <div className="text-right">
                         <div className="font-bold text-base text-white">{bridge.name}</div>
-                        <div className="text-sm text-gray-400">Est. Time: {bridge.time}</div>
+                        <div className="text-sm text-white/70">Gas Fee: {bridge.fee}</div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="font-bold text-base text-white">{bridge.fee}</div>
-                      <div className="text-sm text-white/70">Best Value</div>
+
+                    <div className="grid grid-cols-2 gap-[56%]">
+                      <div>
+                        <div className="text-sm text-gray-400">Max. Slippage</div>
+                        <div className="text-sm text-white font-bold">-- slippage --</div>
+                      </div>
+                      <div>
+                        <div className="text-sm pt-3 ps-6 text-white font-bold flex items-center gap-1">
+                          <Clock className="w-4 h-4" />
+                          <span>{bridge.time}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -118,6 +140,6 @@ export const BridgeRoutesPanel = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
-};
+}
