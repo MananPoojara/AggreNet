@@ -71,7 +71,7 @@ export const chains = [
     // ]
     
     id: "MINT_SEPOLIA",
-    name: "Mint",
+    name: "Starknet",
     chainid: 'MINT_SEPOLIA',
     icon: "https://cryptologos.cc/logos/starknet-strk-logo.svg",
     coins: [
